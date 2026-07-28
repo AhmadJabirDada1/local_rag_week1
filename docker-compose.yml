@@ -10,7 +10,7 @@ services:
       - GENERIC_TIMEZONE=Asia/Karachi
     volumes:
       - n8n_data:/home/node/.n8n
-      - ./documents:/files
+      - ./documents:/home/node/.n8n-files
     depends_on:
       - qdrant
 

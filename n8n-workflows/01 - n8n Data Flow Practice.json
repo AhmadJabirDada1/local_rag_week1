@@ -1,0 +1,228 @@
+{
+  "name": "01 - n8n Data Flow Practice",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        -64
+      ],
+      "id": "c94798ec-1b02-4388-8a20-d47ff798be01",
+      "name": "Start Practice Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e758ce88-a454-4ab8-96b6-5d593ec0d031",
+              "name": "name",
+              "value": "Ahmad",
+              "type": "string"
+            },
+            {
+              "id": "ba48521b-90b8-4de7-9475-bc537ea9aa1d",
+              "name": "project",
+              "value": "Local RAG",
+              "type": "string"
+            },
+            {
+              "id": "c6a70a1d-c5e5-4c59-bdcc-1d60a57e7be6",
+              "name": "week",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "0ae501b3-f6e4-4a1c-8504-64297786f250",
+              "name": "status",
+              "value": "Started",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -304,
+        -64
+      ],
+      "id": "4b85fac5-c2e6-4f1e-88cf-1f44622e6671",
+      "name": "User Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e219c221-529f-47d8-b5e0-7567096651e5",
+              "name": "message",
+              "value": "={{$json.name}} is working on {{$json.project}}.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        -64
+      ],
+      "id": "2270328c-8c4d-48f6-adfa-03d2d5248be9",
+      "name": "Status Msg"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3f88a667-bba0-4d57-baa3-21fdb12baaaa",
+              "leftValue": "={{$json.week}}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        -64
+      ],
+      "id": "2f685464-2ff3-4ad3-a96d-a57d31ff2bf0",
+      "name": "If",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7951d6c2-e9b9-48da-b0ef-9330ff8f7583",
+              "name": "result",
+              "value": "This is the Week 1 RAG Project",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        -160
+      ],
+      "id": "31c06f48-f19d-4e4c-9e0c-1a2cc84596f0",
+      "name": "TRUE"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d24e9819-5a48-46f5-afca-f117010b96be",
+              "name": "Result",
+              "value": "This is not Week 1",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        32
+      ],
+      "id": "1067ce1b-d786-4b04-88ce-a3df0f75001d",
+      "name": "FALSE"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start Practice Workflow": {
+      "main": [
+        [
+          {
+            "node": "User Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Data": {
+      "main": [
+        [
+          {
+            "node": "Status Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "TRUE",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FALSE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status Msg": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0a221875-c758-42f6-8c6d-8551407d2e3a",
+  "meta": {
+    "instanceId": "fbc37c08c6df7c1b0947b67a4f5865e9a4bd83782b36a2f5e12359ae4116f931"
+  },
+  "nodeGroups": [],
+  "id": "rv9PnlAY0Y01BcDM",
+  "tags": []
+}

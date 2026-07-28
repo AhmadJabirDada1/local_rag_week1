@@ -1,0 +1,57 @@
+{
+  "name": "04 - Read Local File Practice",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -32
+      ],
+      "id": "8689857c-287a-472d-b796-f1e56ae5561b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/.n8n-files/company-text.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        -32
+      ],
+      "id": "9e7b9479-f9ab-496c-9f6d-eeea641acf84",
+      "name": "Read/Write Files from Disk"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "505e8028-c893-45a6-8cdc-da0718e89f75",
+  "meta": {
+    "instanceId": "fbc37c08c6df7c1b0947b67a4f5865e9a4bd83782b36a2f5e12359ae4116f931"
+  },
+  "nodeGroups": [],
+  "id": "CB8sUV5L10xtZvl1",
+  "tags": []
+}

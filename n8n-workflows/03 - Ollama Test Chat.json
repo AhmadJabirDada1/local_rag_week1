@@ -1,0 +1,102 @@
+{
+  "name": "03 - Ollama Test Chat",
+  "nodes": [
+    {
+      "parameters": {
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        416,
+        0
+      ],
+      "id": "5b78c2f4-90f6-43f5-bb5f-23956f99db2e",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:3b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        416,
+        160
+      ],
+      "id": "5a140368-6100-408d-83ae-28fad71264ef",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "TGhDk8JAgK5GoRDQ",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "dd2f8751-e4df-4e12-8241-4b4ac55fcb7f",
+      "name": "When chat message received",
+      "webhookId": "8d8fbccc-f6a6-4ac7-9205-5591220f79fa"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "25bdd1b8-e4d3-4713-b47d-b7dba528f275",
+      "name": "Basic LLM Chain"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "4304ad11-9cdc-48d0-8c38-0118e6f5d521",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fbc37c08c6df7c1b0947b67a4f5865e9a4bd83782b36a2f5e12359ae4116f931"
+  },
+  "nodeGroups": [],
+  "id": "F7ChvpBVywmIFpMO",
+  "tags": []
+}

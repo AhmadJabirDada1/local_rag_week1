@@ -1,0 +1,58 @@
+{
+  "name": "02 - n8n Error Practice",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "bc04c8ab-8d94-41d8-b399-a18db442d5c7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:9999/test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        80,
+        0
+      ],
+      "id": "a0c75ad3-a749-42a3-a0b0-cfaa51e25db3",
+      "name": "HTTP Request",
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bd395eee-3b1e-4faf-9c45-7eb813a82c52",
+  "meta": {
+    "instanceId": "fbc37c08c6df7c1b0947b67a4f5865e9a4bd83782b36a2f5e12359ae4116f931"
+  },
+  "nodeGroups": [],
+  "id": "uEYOUX8MZg84WWcZ",
+  "tags": []
+}
