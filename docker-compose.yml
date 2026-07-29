@@ -3,27 +3,49 @@ services:
     image: docker.n8n.io/n8nio/n8n:latest
     container_name: local-rag-n8n
     restart: unless-stopped
+
     ports:
-      - "127.0.0.1:5678:5678" # allows user to open http://localhost:5678
+      - "127.0.0.1:5678:5678" # open n8n at http://localhost:5678
+
     environment:
       - TZ=Asia/Karachi
       - GENERIC_TIMEZONE=Asia/Karachi
+
     volumes:
       - n8n_data:/home/node/.n8n
       - ./documents:/home/node/.n8n-files
-    depends_on:
-      - qdrant
 
-  qdrant:
-    image: qdrant/qdrant:latest
-    container_name: local-rag-qdrant # readable container name
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: local-rag-postgres
     restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
     ports:
-      - "127.0.0.1:6333:6333" # main qdrant http service
-      - "127.0.0.1:6334:6334"
+      - "127.0.0.1:5432:5432" # local PostgreSQL connection
+
     volumes:
-      - qdrant_data:/qdrant/storage
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
 volumes: # creates two permanent storage areas
   n8n_data:
-  qdrant_data:  
+  postgres_data:

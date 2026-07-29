@@ -1,0 +1,29 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: local-rag-n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678" # allows user to open http://localhost:5678
+    environment:
+      - TZ=Asia/Karachi
+      - GENERIC_TIMEZONE=Asia/Karachi
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./documents:/home/node/.n8n-files
+    depends_on:
+      - qdrant
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: local-rag-qdrant # readable container name
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6333:6333" # main qdrant http service
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes: # creates two permanent storage areas
+  n8n_data:
+  qdrant_data:  
