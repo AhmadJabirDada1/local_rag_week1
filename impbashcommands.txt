@@ -1,0 +1,60 @@
+docker compose up -d #start evertyhing
+docker compose ps #check list of evertyhing
+ls -lh documents #check local mac documents
+cat documents/company-text.txt #read file on mac
+docker compose exec n8n ls -lh /home/node/.n8n-files #List mounted files within n8n container
+docker compose exec n8n \
+ls -lh /home/node/.n8n-files/rag-test-document.pdf #check if pdf exists within n8n container
+cat /home/node/.n8n-files/company-text.txt#read file inside n8n container
+
+crtl + c #exit dockers env
+
+
+#check pg vectors status
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "SELECT extname, extversion FROM pg_extension WHERE extname = 'vector';"
+
+#list postgresql tables
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "\dt"
+
+#Inspect n chunks:
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "SELECT id, LENGTH(text) AS characters, LEFT(text, 150) AS preview FROM n8n_vectors LIMIT 5;"
+
+#Inspect n chunks with metadata
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "SELECT LEFT(text, 120) AS preview, metadata FROM n8n_vectors LIMIT 5;"
+
+#check table structure
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "\d n8n_vectors"
+
+
+#clear indexed chunks b4 reindexing
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "TRUNCATE TABLE n8n_vectors;"
+
+#confim change
+docker compose exec postgres \
+psql -U rag_user -d rag_db \
+-c "SELECT COUNT(*) FROM n8n_vectors;"
+
+
+#enter postgresql environment
+docker compose exec postgres \
+psql -U rag_user -d rag_db
+
+#Imp sql commands:
+\dt #list tables
+\dx #list extensions
+\d n8n_vectors #show the vector table structure
+SELECT COUNT(*) FROM n8n_vectors; #count chunks
+\q #exit
+
